@@ -12,12 +12,4 @@ public class KitchenApplication {
 		SpringApplication.run(KitchenApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner commandLineRunner(String[] args) {
-		return runner -> {
-			System.out.println("Hello Spring Boot!");
-		};
-	}
-
-
 }

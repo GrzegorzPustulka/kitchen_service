@@ -4,17 +4,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
-class MealItem {
+class OrderItem {
     private String meal;
     private Integer count;
 }
 
 @Getter
 @Setter
-public class Meal {
-    private String id;
-    private List<MealItem> meals;
+public class Order {
+    private UUID id;
+    private List<OrderItem> meals;
 }
