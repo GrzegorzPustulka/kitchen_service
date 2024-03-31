@@ -2,12 +2,11 @@ package com.kitchen.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kitchen.config.RabbitMQConfig;
-import com.kitchen.model.Order;
+import com.kitchen.dto.Order;
 import com.kitchen.repository.RedisOrderRepository;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class OrderService {
@@ -41,6 +39,10 @@ public class OrderService {
         return redisOrderRepository.getOrder(orderId);
     }
 
+    public List<Order> getAllOrders() {
+        return redisOrderRepository.getAllOrders();
+    }
+
     public void saveOrder(Order order) {
         redisOrderRepository.saveOrder(order);
     }
@@ -54,6 +56,7 @@ public class OrderService {
                 saveOrder(objectMapper.readValue(messageBody, Order.class));
                 return objectMapper.readValue(messageBody, Order.class);
             } catch (IOException e) {
+                // TODO: Add some error handling here
                 logger.error("Error while parsing JSON message", e);
             }
         }

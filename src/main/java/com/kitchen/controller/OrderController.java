@@ -1,6 +1,6 @@
 package com.kitchen.controller;
 
-import com.kitchen.model.Order;
+import com.kitchen.dto.Order;
 import com.kitchen.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/orders")
@@ -31,5 +32,10 @@ public class OrderController {
     @GetMapping("/{orderId}")
     public Order getOrder(@PathVariable String orderId) {
         return orderService.getOrder(orderId);
+    }
+
+    @GetMapping("/all")
+    public List<Order> getAllOrders() {
+        return orderService.getAllOrders();
     }
 }

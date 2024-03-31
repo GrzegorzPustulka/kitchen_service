@@ -1,4 +1,4 @@
-package com.kitchen.model;
+package com.kitchen.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,14 +8,14 @@ import java.util.UUID;
 
 @Getter
 @Setter
-class OrderItem {
-    private String meal;
-    private Integer count;
-}
-
-@Getter
-@Setter
 public class Order {
     private UUID id;
     private List<OrderItem> meals;
+
+    @Getter
+    @Setter
+    private static class OrderItem {
+        private String meal;
+        private Integer count;
+    }
 }
