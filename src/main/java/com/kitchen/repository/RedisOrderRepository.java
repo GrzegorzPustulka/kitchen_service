@@ -42,6 +42,10 @@ public class RedisOrderRepository {
         return orders;
     }
 
+    public void deleteOrder(String orderId) {
+        redisTemplate.delete(getRedisKeyPrefix() + orderId);
+    }
+
     private String getRedisKey(Order order) {
         return getRedisKeyPrefix() + order.getId().toString();
     }

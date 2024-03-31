@@ -47,16 +47,20 @@ public class OrderService {
         redisOrderRepository.saveOrder(order);
     }
 
+    public void deleteOrder(String orderId) {
+        redisOrderRepository.deleteOrder(orderId);
+    }
+
     public Order receiveOrderFromQueue() {
         Message message = rabbitTemplate.receive(rabbitMQConfig.getQueueName());
 
         if (message != null ) {
+            // TODO: handle exceptions
             try {
                 String messageBody = new String(message.getBody(), StandardCharsets.UTF_8);
                 saveOrder(objectMapper.readValue(messageBody, Order.class));
                 return objectMapper.readValue(messageBody, Order.class);
             } catch (IOException e) {
-                // TODO: Add some error handling here
                 logger.error("Error while parsing JSON message", e);
             }
         }
