@@ -1,6 +1,7 @@
 package com.kitchen.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.kitchen.enums.UserAddressType;
 import com.kitchen.enums.UserRoleType;
 import jakarta.persistence.*;
@@ -14,8 +15,9 @@ import lombok.ToString;
 @Name("userAddress")
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor // for hibernate to be able to instantiate the class
 @ToString
+@JsonIgnoreProperties("user") // to avoid infinite recursion
 public class UserAddress extends Base{
 
     @Column(name = "country")
@@ -52,6 +54,21 @@ public class UserAddress extends Base{
         this.houseNumber = houseNumber;
         this.apartmentNumber = apartmentNumber;
         this.type = type;
+    }
+
+    // I can't use Lombok's @ToString because it will cause infinite recursion
+    @Override
+    public String toString() {
+        return "UserAddress{" +
+                "id=" + id +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                ", houseNumber=" + houseNumber +
+                ", apartmentNumber=" + apartmentNumber +
+                ", type=" + type +
+                '}';
     }
 
 }

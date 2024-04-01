@@ -1,6 +1,6 @@
 package com.kitchen.controller;
 
-import com.kitchen.dto.Order;
+import com.kitchen.dto.OrderDTO;
 import com.kitchen.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,18 +21,19 @@ public class OrderController {
 
 
     // TODO: dodac zwracanie wiecej niz jednego zamowienia, jesli kucharz poda odpowiedni parametr
+    // TODO: dodac obsluge bledow, np. jesli zamowienie nie istnieje.
     @GetMapping("/")
-    public Order getNextOrderFromQueue() {
+    public OrderDTO getNextOrderFromQueue() {
         return orderService.receiveOrderFromQueue();
     }
 
     @GetMapping("/{orderId}")
-    public Order getOrder(@PathVariable String orderId) {
+    public OrderDTO getOrder(@PathVariable String orderId) {
         return orderService.getOrder(orderId);
     }
 
     @GetMapping("/all")
-    public List<Order> getAllOrders() {
+    public List<OrderDTO> getAllOrders() {
         return orderService.getAllOrders();
     }
 

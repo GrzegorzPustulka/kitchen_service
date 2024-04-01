@@ -17,7 +17,7 @@ public class Base {
     @Id
     @GeneratedValue(generator = "uuid4")
     @Column(name = "id", columnDefinition = "uuid", updatable = false)
-    private UUID id;
+    protected UUID id;
 
 }
 

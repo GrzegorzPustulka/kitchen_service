@@ -31,3 +31,18 @@ Example message format:
     ]
 }
 ```
+
+## Running the application
+
+
+# Redis
+Login to redis-cli
+```shell
+docker exec -it <container_id> redis-cli
+```
+
+# PostgreSQL
+Login to psql
+```shell
+docker exec -it <container_id> psql -U postgres
+```

@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class Order {
+public class OrderDTO {
     private UUID id;
     private List<OrderItem> meals;
 
