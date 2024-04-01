@@ -2,9 +2,17 @@ package com.kitchen.service;
 
 import com.kitchen.dto.EmployeeDTO;
 import com.kitchen.model.User;
+import com.kitchen.model.UserAddress;
+import com.kitchen.model.UserDetails;
 import com.kitchen.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+
+@Service
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
@@ -15,7 +23,12 @@ public class EmployeeService {
     }
 
     public EmployeeDTO getEmployee(String employeeId){
-        User user = employeeRepository.findById(employeeId);
+        Optional<User> employee = employeeRepository.findById(UUID.fromString(employeeId));
+
+        if (employee.isEmpty()) {
+            throw new RuntimeException("Employee not found");
+        }
+        return new EmployeeDTO(employee.get());
     }
 
 }
