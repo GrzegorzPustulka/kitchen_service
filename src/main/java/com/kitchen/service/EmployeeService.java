@@ -1,6 +1,7 @@
 package com.kitchen.service;
 
 import com.kitchen.dto.EmployeeDTO;
+import com.kitchen.dto.UserUpdateRequest;
 import com.kitchen.model.User;
 import com.kitchen.model.UserAddress;
 import com.kitchen.model.UserDetails;
@@ -29,6 +30,17 @@ public class EmployeeService {
             throw new RuntimeException("Employee not found");
         }
         return new EmployeeDTO(employee.get());
+    }
+
+    // TODO: Implement the updateEmployee method
+    public EmployeeDTO updateEmployee(String employeeId, UserUpdateRequest request){
+        Optional<User> employee = employeeRepository.findById(UUID.fromString(employeeId));
+
+        if (employee.isEmpty()) {
+            throw new RuntimeException("Employee not found");
+        }
+
+
     }
 
 }
