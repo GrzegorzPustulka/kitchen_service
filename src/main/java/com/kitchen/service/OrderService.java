@@ -2,7 +2,7 @@ package com.kitchen.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kitchen.config.RabbitMQConfig;
-import com.kitchen.dto.Order;
+import com.kitchen.dto.OrderDTO;
 import com.kitchen.repository.RedisOrderRepository;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -35,31 +35,31 @@ public class OrderService {
     }
 
 
-    public Order getOrder(String orderId) {
+    public OrderDTO getOrder(String orderId) {
         return redisOrderRepository.getOrder(orderId);
     }
 
-    public List<Order> getAllOrders() {
+    public List<OrderDTO> getAllOrders() {
         return redisOrderRepository.getAllOrders();
     }
 
-    public void saveOrder(Order order) {
-        redisOrderRepository.saveOrder(order);
+    public void saveOrder(OrderDTO orderDTO) {
+        redisOrderRepository.saveOrder(orderDTO);
     }
 
     public void deleteOrder(String orderId) {
         redisOrderRepository.deleteOrder(orderId);
     }
 
-    public Order receiveOrderFromQueue() {
+    public OrderDTO receiveOrderFromQueue() {
         Message message = rabbitTemplate.receive(rabbitMQConfig.getQueueName());
 
         if (message != null ) {
             // TODO: handle exceptions
             try {
                 String messageBody = new String(message.getBody(), StandardCharsets.UTF_8);
-                saveOrder(objectMapper.readValue(messageBody, Order.class));
-                return objectMapper.readValue(messageBody, Order.class);
+                saveOrder(objectMapper.readValue(messageBody, OrderDTO.class));
+                return objectMapper.readValue(messageBody, OrderDTO.class);
             } catch (IOException e) {
                 logger.error("Error while parsing JSON message", e);
             }
