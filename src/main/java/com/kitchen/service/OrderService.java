@@ -3,6 +3,8 @@ package com.kitchen.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kitchen.config.RabbitMQConfig;
 import com.kitchen.dto.OrderDTO;
+import com.kitchen.dto.OrderStatusRequest;
+import com.kitchen.enums.OrderStatus;
 import com.kitchen.repository.RedisOrderRepository;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -10,12 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static java.util.Collections.reverse;
@@ -30,11 +34,14 @@ public class OrderService {
 
     private final RedisOrderRepository redisOrderRepository;
 
+    private final OrderStatusService orderStatusService;
+
 
     @Autowired
-    public OrderService(RabbitMQConfig rabbitMQConfig, RabbitTemplate rabbitTemplate, RedisOrderRepository redisOrderRepository, ObjectMapper objectMapper) {
+    public OrderService(RabbitMQConfig rabbitMQConfig, RabbitTemplate rabbitTemplate, RedisOrderRepository redisOrderRepository, OrderStatusService orderStatusService, ObjectMapper objectMapper) {
         this.rabbitMQConfig = rabbitMQConfig;
         this.rabbitTemplate = rabbitTemplate;
+        this.orderStatusService = orderStatusService;
         this.redisOrderRepository = redisOrderRepository;
         this.objectMapper = objectMapper;
     }
@@ -56,28 +63,36 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    public void saveOrder(OrderDTO orderDTO) {
-        redisOrderRepository.saveOrder(orderDTO);
+    private Mono<Void> saveOrder(OrderDTO orderDTO) {
+        OrderStatusRequest orderStatusRequest = new OrderStatusRequest(orderDTO.getId(), OrderStatus.PREPARING);
+        return orderStatusService.sendNewOrderStatus(orderStatusRequest)
+                .then(Mono.fromRunnable(() -> redisOrderRepository.saveOrder(orderDTO)));
     }
 
-    public void deleteOrder(String orderId) {
-        redisOrderRepository.deleteOrder(orderId);
-    }
-
-    public OrderDTO receiveOrderFromQueue() {
-        Message message = rabbitTemplate.receive(rabbitMQConfig.getQueueName());
-
-        if (message != null ) {
-            // TODO: handle exceptions
-            try {
-                String messageBody = new String(message.getBody(), StandardCharsets.UTF_8);
-                saveOrder(objectMapper.readValue(messageBody, OrderDTO.class));
-                return objectMapper.readValue(messageBody, OrderDTO.class);
-            } catch (IOException e) {
-                logger.error("Error while parsing JSON message", e);
-            }
+    public Mono<Void> deleteOrder(String orderId, OrderStatus status) {
+        OrderDTO orderDTO = getOrder(orderId);
+        if (orderDTO == null) {
+            return Mono.error(new RuntimeException("Order not found"));
         }
+        redisOrderRepository.deleteOrder(orderId);
+        OrderStatusRequest statusRequest = new OrderStatusRequest(UUID.fromString(orderId), status);
+        return orderStatusService.sendNewOrderStatus(statusRequest);
+    }
 
-        return null;
+    public Mono<OrderDTO> receiveOrderFromQueue() {
+        return Mono.fromCallable(() -> rabbitTemplate.receive(rabbitMQConfig.getQueueName()))
+                .flatMap(message -> {
+                    if (message == null) {
+                        return Mono.empty(); // lub Mono.error(new CustomException("Message is null"));
+                    }
+                    try {
+                        String messageBody = new String(message.getBody(), StandardCharsets.UTF_8);
+                        OrderDTO orderDTO = objectMapper.readValue(messageBody, OrderDTO.class);
+                        return saveOrder(orderDTO).thenReturn(orderDTO);
+                    } catch (IOException e) {
+                        logger.error("Error while parsing JSON message", e);
+                        return Mono.error(e);
+                    }
+                });
     }
 }
