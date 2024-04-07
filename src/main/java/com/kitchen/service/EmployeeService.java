@@ -33,14 +33,14 @@ public class EmployeeService {
     }
 
     // TODO: Implement the updateEmployee method
-    public EmployeeDTO updateEmployee(String employeeId, UserUpdateRequest request){
-        Optional<User> employee = employeeRepository.findById(UUID.fromString(employeeId));
-
-        if (employee.isEmpty()) {
-            throw new RuntimeException("Employee not found");
-        }
-
-
-    }
+//    public EmployeeDTO updateEmployee(String employeeId, UserUpdateRequest request){
+//        Optional<User> employee = employeeRepository.findById(UUID.fromString(employeeId));
+//
+//        if (employee.isEmpty()) {
+//            throw new RuntimeException("Employee not found");
+//        }
+//
+//
+//    }
 
 }
