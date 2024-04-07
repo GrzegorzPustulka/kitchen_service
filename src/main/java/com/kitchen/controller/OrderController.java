@@ -1,9 +1,11 @@
 package com.kitchen.controller;
 
 import com.kitchen.dto.OrderDTO;
+import com.kitchen.enums.OrderStatus;
 import com.kitchen.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -20,10 +22,9 @@ public class OrderController {
     }
 
 
-    // TODO: dodac zwracanie wiecej niz jednego zamowienia, jesli kucharz poda odpowiedni parametr
     // TODO: dodac obsluge bledow, np. jesli zamowienie nie istnieje.
     @GetMapping("/")
-    public OrderDTO getNextOrderFromQueue() {
+    public Mono<OrderDTO> getNextOrderFromQueue() {
         return orderService.receiveOrderFromQueue();
     }
 
@@ -38,7 +39,7 @@ public class OrderController {
     }
 
     @DeleteMapping("/{orderId}")
-    public void deleteOrder(@PathVariable String orderId) {
-        orderService.deleteOrder(orderId);
+    public Mono<Void> deleteOrder(@PathVariable String orderId, @RequestParam("status") OrderStatus status) {
+        return orderService.deleteOrder(orderId, status);
     }
 }
