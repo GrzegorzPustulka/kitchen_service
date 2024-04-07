@@ -33,7 +33,7 @@ public class UserAddress extends Base{
     private String zipCode;
 
     @Column(name = "house_number")
-    private int houseNumber;
+    private String houseNumber;
 
     @Column(name = "apartment_number")
     private int apartmentNumber;
@@ -46,7 +46,7 @@ public class UserAddress extends Base{
     @JoinColumn(name = "user_id")
     private User user;
 
-    public UserAddress(String country, String city, String street, String zipCode, int houseNumber, int apartmentNumber, UserAddressType type) {
+    public UserAddress(String country, String city, String street, String zipCode, String houseNumber, int apartmentNumber, UserAddressType type) {
         this.country = country;
         this.city = city;
         this.street = street;
