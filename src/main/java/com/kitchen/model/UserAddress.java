@@ -3,7 +3,6 @@ package com.kitchen.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.kitchen.enums.UserAddressType;
-import com.kitchen.enums.UserRoleType;
 import jakarta.persistence.*;
 import jdk.jfr.Name;
 import lombok.Getter;
@@ -16,7 +15,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor // for hibernate to be able to instantiate the class
-@ToString
 @JsonIgnoreProperties("user") // to avoid infinite recursion
 public class UserAddress extends Base{
 

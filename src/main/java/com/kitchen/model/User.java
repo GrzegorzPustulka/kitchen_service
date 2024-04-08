@@ -5,11 +5,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name="users")
@@ -33,12 +31,6 @@ public class User extends Base{
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UserAddress> userAddress = new HashSet<>();
-
-    public User(String email, String password, UserRoleType role) {
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
 
     // I can't use Lombok's @ToString because it will cause infinite recursion
     @Override
