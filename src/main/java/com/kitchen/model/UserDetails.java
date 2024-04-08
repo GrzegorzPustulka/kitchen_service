@@ -14,7 +14,6 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor // for hibernate to be able to instantiate the class
-@ToString
 @JsonIgnoreProperties("user") // to avoid infinite recursion
 public class UserDetails extends Base{
 
