@@ -21,11 +21,11 @@ docker compose down > /dev/null 2>&1
 echo "Uruchamianie usług Docker Compose..."
 docker-compose up -d > /dev/null 2>&1
 
-echo "Uruchamianie Service Kitchen..."
-./mvnw spring-boot:run > /dev/null 2>&1 &
-
 echo "Pauza na 5s..."
 sleep 5
+
+echo "Uruchamianie Service Kitchen..."
+./mvnw spring-boot:run > /dev/null 2>&1 &
 
 cd ../scripts/
 source .venv/bin/activate
