@@ -1,8 +1,0 @@
-INSERT INTO users (id, email, password, role_type)
-VALUES ('f47ac10b-58cc-4372-a567-0e02b2c3d480', 'przykladowy@email.com', 'haslo123', 'PERSONAL');
-
-INSERT INTO user_address (id, user_id, apartment_number, house_number, city, country, street, type, zip_code)
-VALUES ('f47ac10b-58cc-4372-a567-0e02b2c3d481', 'f47ac10b-58cc-4372-a567-0e02b2c3d480', '2', '123', 'Example City', 'Example Country', 'Example Street', 'RESIDENCE', '12345');
-
-INSERT INTO user_details (id, user_id, birth_date, email, first_name, last_name, phone_number)
-VALUES ('f47ac10b-58cc-4372-a567-0e02b2c3d482', 'f47ac10b-58cc-4372-a567-0e02b2c3d480', '1990-01-01', 'example@email.com', 'John', 'Doe', '+1234567890');
