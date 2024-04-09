@@ -12,7 +12,7 @@ import java.util.UUID;
 public interface RecipeRepository extends JpaRepository<Recipe, UUID> {
 
 
-    @Query("select r from Recipe r where r.dish.id in :mealIds")
+    @Query("select r, d from Recipe r inner join Dish d on d.id = r.dish.id where r.dish.id in :mealIds")
     List<Recipe> getRecipesByMealIds(List<UUID> mealIds);
 }
 

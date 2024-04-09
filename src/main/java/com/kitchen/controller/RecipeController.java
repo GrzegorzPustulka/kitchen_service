@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/recipes")
@@ -22,7 +23,7 @@ public class RecipeController {
     }
 
     @GetMapping("/")
-    public List<RecipeDTO> getRecipesByMealIds(@RequestParam List<String> MealIds) {
+    public List<RecipeDTO> getRecipesByMealIds(@RequestParam List<UUID> MealIds) {
         return recipeService.getRecipesByMealIds(MealIds);
     }
 }

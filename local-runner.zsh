@@ -9,7 +9,7 @@ echo "Uruchamianie Service Kitchen..."
 ./mvnw spring-boot:run > /dev/null 2>&1 &
 
 echo "Pauza na 8s..."
-sleep 11
+sleep 8
 
 cd ../scripts/
 source .venv/bin/activate

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,10 +21,10 @@ public class RecipeService {
         this.recipeRepository = recipeRepository;
     }
 
-    public List<RecipeDTO> getRecipesByMealIds(List<String> MealIds) {
+    public List<RecipeDTO> getRecipesByMealIds(List<UUID> MealIds) {
         List<Recipe> recipes = this.recipeRepository.getRecipesByMealIds(MealIds);
         return recipes.stream()
-                .map(recipe -> new RecipeDTO(recipe.getId(), recipe.getSteps()))
+                .map(recipe -> new RecipeDTO(recipe.getId(), recipe.getSteps(), recipe.getDish().getName()))
                 .collect(Collectors.toList());
     }
 }
