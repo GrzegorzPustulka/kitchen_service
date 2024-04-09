@@ -32,6 +32,9 @@ public class User extends Base{
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UserAddress> userAddress = new HashSet<>();
 
+    @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Recipe> createdRecipes = new HashSet<>();
+
     // I can't use Lombok's @ToString because it will cause infinite recursion
     @Override
     public String toString() {
