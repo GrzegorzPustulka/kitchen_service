@@ -20,6 +20,7 @@ public class OrderDTO {
     @Getter
     @Setter
     private static class OrderItem {
+        private UUID mealId;
         private String meal;
         private Integer count;
     }
