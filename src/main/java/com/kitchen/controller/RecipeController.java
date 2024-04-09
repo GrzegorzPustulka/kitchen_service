@@ -3,10 +3,7 @@ package com.kitchen.controller;
 import com.kitchen.dto.RecipeDTO;
 import com.kitchen.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,8 +19,8 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @GetMapping("/")
-    public List<RecipeDTO> getRecipesByMealIds(@RequestParam List<UUID> MealIds) {
-        return recipeService.getRecipesByMealIds(MealIds);
+    @GetMapping("/{mealId}")
+    public RecipeDTO getRecipeByMealId(@PathVariable UUID mealId) {
+        return recipeService.getRecipeByMealId(mealId);
     }
 }

@@ -21,10 +21,8 @@ public class RecipeService {
         this.recipeRepository = recipeRepository;
     }
 
-    public List<RecipeDTO> getRecipesByMealIds(List<UUID> MealIds) {
-        List<Recipe> recipes = this.recipeRepository.getRecipesByMealIds(MealIds);
-        return recipes.stream()
-                .map(recipe -> new RecipeDTO(recipe.getId(), recipe.getSteps(), recipe.getDish().getName()))
-                .collect(Collectors.toList());
+    public RecipeDTO getRecipeByMealId(UUID mealId) {
+        Recipe recipe = this.recipeRepository.getRecipeByMealId(mealId);
+        return new RecipeDTO(recipe.getId(), recipe.getSteps(), recipe.getDish().getName());
     }
 }
