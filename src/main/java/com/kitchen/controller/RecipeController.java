@@ -1,6 +1,7 @@
 package com.kitchen.controller;
 
-import com.kitchen.dto.RecipeDTO;
+import com.kitchen.dto.Recipe.RecipeCreationDTO;
+import com.kitchen.dto.Recipe.RecipeResponseDTO;
 import com.kitchen.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,28 @@ public class RecipeController {
     }
 
     @GetMapping("/{mealId}")
-    public RecipeDTO getRecipeByMealId(@PathVariable UUID mealId) {
+    public RecipeResponseDTO getRecipeByMealId(@PathVariable UUID mealId) {
         return recipeService.getRecipeByMealId(mealId);
     }
+
+    @GetMapping("/")
+    public List<RecipeResponseDTO> getAllRecipes() {
+        return recipeService.getAllRecipes();
+    }
+
+//    TODO: I need spring security to implement this method
+//    @PostMapping("/")
+//    public RecipeResponseDTO createRecipe(@RequestBody RecipeCreationDTO recipe) {
+//        return recipeService.createRecipe(recipe);
+//    }
+//    TODO: I need spring security to implement this method
+//    @PatchMapping("/{mealId}")
+//    public RecipeResponseDTO updateRecipe(@PathVariable UUID mealId, @RequestBody RecipeUpdateDTO recipe) {
+//        return recipeService.updateRecipe(mealId, recipe);
+//    }
+//    TODO: I need spring security to implement this method
+//    @DeleteMapping("/{mealId}")
+//    public void deleteRecipe(@PathVariable UUID mealId) {
+//        recipeService.deleteRecipe(mealId);
+//    }
 }
