@@ -1,6 +1,6 @@
 package com.kitchen.service;
 
-import com.kitchen.dto.RecipeDTO;
+import com.kitchen.dto.Recipe.RecipeResponseDTO;
 import com.kitchen.model.Recipe;
 import com.kitchen.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +21,14 @@ public class RecipeService {
         this.recipeRepository = recipeRepository;
     }
 
-    public RecipeDTO getRecipeByMealId(UUID mealId) {
+    public RecipeResponseDTO getRecipeByMealId(UUID mealId) {
         Recipe recipe = this.recipeRepository.getRecipeByMealId(mealId);
-        return new RecipeDTO(recipe.getId(), recipe.getSteps(), recipe.getDish().getName());
+        return new RecipeResponseDTO(recipe.getId(), recipe.getSteps(), recipe.getDish().getName());
+    }
+
+    public List<RecipeResponseDTO> getAllRecipes() {
+        return this.recipeRepository.findAll().stream()
+                .map(recipe -> new RecipeResponseDTO(recipe.getId(), recipe.getSteps(), recipe.getDish().getName()))
+                .collect(Collectors.toList());
     }
 }
