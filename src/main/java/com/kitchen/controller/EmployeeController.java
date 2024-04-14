@@ -1,7 +1,7 @@
 package com.kitchen.controller;
 
 
-import com.kitchen.dto.EmployeeDTO;
+import com.kitchen.dto.user.EmployeeCreationDTO;
 import com.kitchen.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,14 +18,9 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("/{employeeId}")
-    public EmployeeDTO getEmployee(@PathVariable String employeeId) {
-         return employeeService.getEmployee(employeeId);
+    @PostMapping("/")
+    public void createEmployee(@RequestBody EmployeeCreationDTO employeeCreationDTO) {
+        employeeService.createEmployee(employeeCreationDTO);
     }
-
-//    @PatchMapping("/{employeeId}")
-//    public EmployeeDTO updateEmployee(@PathVariable String employeeId, @RequestBody UserUpdateRequest request) {
-//        return employeeService.updateEmployee(employeeId, request);
-//    }
 
 }

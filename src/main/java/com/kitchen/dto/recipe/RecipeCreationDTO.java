@@ -1,4 +1,4 @@
-package com.kitchen.dto.Recipe;
+package com.kitchen.dto.recipe;
 
 public class RecipeCreationDTO {
 

@@ -2,18 +2,15 @@ package com.kitchen.model;
 
 import com.kitchen.enums.UserRoleType;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name="users")
-@Getter
-@Setter
-@NoArgsConstructor // for hibernate to be able to instantiate the class
+@Data
 public class User extends Base{
 
     @Column(name="email")
@@ -35,14 +32,4 @@ public class User extends Base{
     @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Recipe> createdRecipes = new HashSet<>();
 
-    // I can't use Lombok's @ToString because it will cause infinite recursion
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", role=" + role +
-                '}';
-    }
 }
