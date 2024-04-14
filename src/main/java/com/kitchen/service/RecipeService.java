@@ -1,6 +1,6 @@
 package com.kitchen.service;
 
-import com.kitchen.dto.Recipe.RecipeResponseDTO;
+import com.kitchen.dto.recipe.RecipeResponseDTO;
 import com.kitchen.model.Recipe;
 import com.kitchen.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
