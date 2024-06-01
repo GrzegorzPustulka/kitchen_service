@@ -1,6 +1,6 @@
 package com.kitchen.service;
 
-import com.kitchen.dto.user.EmployeeCreationDTO;
+import com.kitchen.dto.employee.EmployeeCreationDTO;
 import com.kitchen.enums.UserAddressType;
 import com.kitchen.enums.UserRoleType;
 import com.kitchen.model.User;
@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -34,7 +35,6 @@ public class EmployeeService {
         this.employeeAddressRepository = employeeAddressRepository;
     }
 
-    // TODO: Implement the Builder pattern for the EmployeeCreationDTO
     @Transactional
     public void createEmployee(EmployeeCreationDTO employeeCreationDTO) {
         User employee = new User();
@@ -66,6 +66,10 @@ public class EmployeeService {
         employeeAddress.setType(UserAddressType.RESIDENCE);
         employeeAddressRepository.save(employeeAddress);
 
+    }
+
+    public Optional<User> getUserByEmail(String email) {
+        return employeeRepository.findByEmail(email);
     }
 
 }
