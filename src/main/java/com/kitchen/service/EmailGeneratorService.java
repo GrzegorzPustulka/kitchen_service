@@ -16,7 +16,6 @@ public class EmailGeneratorService {
     }
 
     public String generateEmail(String firstName, String lastName) {
-        // Usunięcie polskich znaków i innych znaków specjalnych
         String normalizedFirstName = normalizeString(firstName);
         String normalizedLastName = normalizeString(lastName);
 
@@ -24,7 +23,6 @@ public class EmailGeneratorService {
         String email = emailBase + "@Dinestream.com";
         int counter = 1;
 
-        // Sprawdzenie, czy email już istnieje
         while (userRepository.existsByEmail(email)) {
             email = emailBase + counter + "@Dinestream.com";
             counter++;

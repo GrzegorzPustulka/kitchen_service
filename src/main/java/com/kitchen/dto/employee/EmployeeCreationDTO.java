@@ -1,4 +1,4 @@
-package com.kitchen.dto.user;
+package com.kitchen.dto.employee;
 
 import lombok.Data;
 

@@ -6,9 +6,9 @@ INSERT INTO user_details (id, first_name, last_name, phone_number, email, birth_
                                                                                                   ('20229428-f53c-43e4-9424-871075f7a006', 'John', 'Doe', '1234567890', 'user1@example.com', '1980-01-01', '2a44bdf0-99ae-4318-a2ee-ef37c56d3638'),
                                                                                                   ('b978dd0c-58be-4710-bbb5-e7fccd624928', 'Jane', 'Smith', '0987654321', 'user2@example.com', '1990-01-01', '70766809-b62f-495f-aa13-af16d6bc6c88');
 
-INSERT INTO user_address (id, country, city, street, zip_code, house_number, apartment_number, type, user_id) VALUES
-                                                                                                                 ('9f345c21-3931-44bd-bbf3-9191c5ec36bd', 'Country1', 'City1', 'Street1', 'Zip1', 'HouseNo1', 1, 'RESIDENCE', '2a44bdf0-99ae-4318-a2ee-ef37c56d3638'),
-                                                                                                                 ('e3509fc3-863c-4a7d-bc8c-5eefef949cb9', 'Country2', 'City2', 'Street2', 'Zip2', 'HouseNo2', 2, 'RESIDENCE', '70766809-b62f-495f-aa13-af16d6bc6c88');
+INSERT INTO user_address (id, country, city, street, zip_code, house_number, apartment_number, user_id) VALUES
+                                                                                                                 ('9f345c21-3931-44bd-bbf3-9191c5ec36bd', 'Country1', 'City1', 'Street1', 'Zip1', 'HouseNo1', 1, '2a44bdf0-99ae-4318-a2ee-ef37c56d3638'),
+                                                                                                                 ('e3509fc3-863c-4a7d-bc8c-5eefef949cb9', 'Country2', 'City2', 'Street2', 'Zip2', 'HouseNo2', 2, '70766809-b62f-495f-aa13-af16d6bc6c88');
 
 INSERT INTO categories (id, name) VALUES
                                       ('7c89669b-e5eb-49cd-8d5e-512e3c1fbc9a', 'Zupy'),
@@ -17,7 +17,7 @@ INSERT INTO categories (id, name) VALUES
                                       ('f6a17f8e-16e5-4c14-b13d-7752c1fb4288', 'Makarony'),
                                       ('fe68c819-3b12-4db4-9fe6-7cd43d2e1799', 'Desery');
 
--- Wstawianie danych do tabeli dishes
+
 INSERT INTO dishes (id, name, category_id) VALUES
                                                ('c398f5e1-3b11-4c12-b35d-281ad5eaa06e', 'Zupa z Kurczaka', '7c89669b-e5eb-49cd-8d5e-512e3c1fbc9a'),
                                                ('e89327cb-d28c-4760-85d0-290d2ac1b012', 'Sałatka Warzywna', '0d1d788b-913a-4a2b-934b-ebf44e487f37'),
