@@ -1,11 +1,11 @@
 package com.kitchen.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.kitchen.enums.UserAddressType;
 import jakarta.persistence.*;
 import jdk.jfr.Name;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -38,6 +38,7 @@ public class UserAddress extends Base{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @EqualsAndHashCode.Exclude
     private User user;
 
 }

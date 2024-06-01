@@ -1,6 +1,7 @@
 package com.kitchen.service;
 
 import com.kitchen.dto.employee.EmployeeCreationDTO;
+import com.kitchen.dto.employee.EmployeeResponseDTO;
 import com.kitchen.enums.UserAddressType;
 import com.kitchen.enums.UserRoleType;
 import com.kitchen.model.User;
@@ -15,7 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {
@@ -70,6 +73,40 @@ public class EmployeeService {
 
     public Optional<User> getUserByEmail(String email) {
         return employeeRepository.findByEmail(email);
+    }
+
+    public Optional<EmployeeResponseDTO> getUserById(UUID userId) {
+        return employeeRepository.findById(userId).map(this::convertToEmployeeResponseDTO);
+    }
+
+    public EmployeeResponseDTO convertToEmployeeResponseDTO(User user) {
+        EmployeeResponseDTO dto = new EmployeeResponseDTO();
+        dto.setId(user.getId());
+        dto.setEmail(user.getEmail());
+        dto.setRole(user.getRole());
+
+        UserDetails userDetails = user.getUserDetails();
+        if (userDetails != null) {
+            dto.setFirstName(userDetails.getFirstName());
+            dto.setLastName(userDetails.getLastName());
+            dto.setPhoneNumber(userDetails.getPhoneNumber());
+            dto.setBirthDate(userDetails.getBirthDate());
+        }
+
+        Set<EmployeeResponseDTO.AddressDTO> userAddressDTOs = user.getUserAddress().stream().map(address -> {
+            EmployeeResponseDTO.AddressDTO userAddressDTO = new EmployeeResponseDTO.AddressDTO();
+            userAddressDTO.setCountry(address.getCountry());
+            userAddressDTO.setCity(address.getCity());
+            userAddressDTO.setStreet(address.getStreet());
+            userAddressDTO.setZipCode(address.getZipCode());
+            userAddressDTO.setHouseNumber(address.getHouseNumber());
+            userAddressDTO.setApartmentNumber(address.getApartmentNumber());
+            userAddressDTO.setType(address.getType());
+            return userAddressDTO;
+        }).collect(Collectors.toSet());
+        dto.setAddresses(userAddressDTOs);
+
+        return dto;
     }
 
 }
